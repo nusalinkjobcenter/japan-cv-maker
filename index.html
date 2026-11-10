@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1a365d">
+  <title>Pembuat CV & Dossier Jepang | Tokutei Ginou, Ginou Jisshuu, Gijinkoku</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Browser-native PDF Generation & Merging Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo">
+        <span class="logo-badge">NUSALINK</span>
+        <h1>Pembuat CV & Dossier Jepang</h1>
+      </div>
+      <div class="header-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switch">
+          <button type="button" class="lang-btn active" data-lang="id">🇮🇩 ID</button>
+          <button type="button" class="lang-btn" data-lang="ja">🇯🇵 日本語</button>
+          <button type="button" class="lang-btn" data-lang="en">🇬🇧 EN</button>
+        </div>
+        
+        <!-- Primary Action: Merge CV + JFT + SSW -->
+        <button id="downloadDossierBtn" class="btn btn-primary">
+          📑 Unduh Dokumen Lengkap (CV + Sertifikat PDF)
+        </button>
+        
+        <!-- Secondary Action: Print CV Only -->
+        <button id="printBtn" class="btn btn-secondary no-print" onclick="window.print()">
+          🖨️ Cetak CV Saja
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Status Notification Banner -->
+  <div id="statusBanner" class="status-banner" style="display: none;"></div>
+
+  <main class="app-container">
+    
+    <!-- LEFT COLUMN: Editor Form (Trilingual UI) -->
+    <section class="editor-pane no-print">
+      
+      <!-- 1. Visa Category -->
+      <div class="card">
+        <h2 class="card-title" data-i18n="visa_title">1. Kategori Visa Kerja (在留資格区分)</h2>
+        <div class="field-group">
+          <label for="visaType" data-i18n="visa_label">Pilihan Visa / Jalur Kerja:</label>
+          <select id="visaType" class="input-control">
+            <option value="特定技能 (Specified Skilled Worker)" selected>Tokutei Ginou / SSW (特定技能 1号)</option>
+            <option value="技能実習 / 育成就労 (Technical Intern)">Ginou Jisshuu / Magang (技能実習・育成就労)</option>
+            <option value="技術・人文知識・国際業務 (Engineer/Specialist)">Gijinkoku / Visa Kerja Ahli (技術・人文・国際業務)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. Personal Information -->
+      <div class="card">
+        <h2 class="card-title" data-i18n="personal_title">2. Data Pribadi Kandidat (基本情報)</h2>
+        
+        <div class="field-group">
+          <label for="photoInput" data-i18n="photo_label">Pasfoto Formal (3x4 cm / Rasio 30mm x 40mm):</label>
+          <input type="file" id="photoInput" accept="image/*" class="input-control-file">
+          <small class="help-text">Gunakan latar belakang polos (biru/merah/putih), berpakaian kemeja/jas.</small>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="nameRomaji" data-i18n="name_label">Nama Lengkap (Huruf Latin sesuai Paspor):</label>
+            <input type="text" id="nameRomaji" class="input-control" placeholder="Contoh: AHMAD FAUZI" value="AHMAD FAUZI">
+          </div>
+          <div class="field-group">
+            <label for="nameKana" data-i18n="kana_label">Nama Katakana (Furigana):</label>
+            <input type="text" id="nameKana" class="input-control" placeholder="Contoh: アフマッド ファウジ" value="アフマッド ファウジ">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="dob" data-i18n="dob_label">Tanggal Lahir (Date of Birth):</label>
+            <input type="date" id="dob" class="input-control" value="2000-05-15">
+          </div>
+          <div class="field-group">
+            <label for="gender" data-i18n="gender_label">Jenis Kelamin:</label>
+            <select id="gender" class="input-control">
+              <option value="男" selected>Laki-laki (男)</option>
+              <option value="女">Perempuan (女)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="nationality" data-i18n="nat_label">Kewarganegaraan:</label>
+            <select id="nationality" class="input-control">
+              <option value="インドネシア" selected>Indonesia (インドネシア)</option>
+              <option value="ベトナム">Vietnam (ベトナム)</option>
+              <option value="フィリピン">Filipina (フィリピン)</option>
+              <option value="ミャンマー">Myanmar (ミャンマー)</option>
+              <option value="ネパール">Nepal (ネパール)</option>
+              <option value="その他">Lainnya (その他)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="japaneseLevel" data-i18n="lang_label">Sertifikat Bahasa Jepang:</label>
+            <select id="japaneseLevel" class="input-control">
+              <option value="JFT-Basic A2" selected>JFT-Basic A2 (Lulus)</option>
+              <option value="JLPT N4">JLPT N4 (Lulus)</option>
+              <option value="JLPT N3">JLPT N3 (Lulus)</option>
+              <option value="JLPT N2">JLPT N2 (Lulus)</option>
+              <option value="JLPT N1">JLPT N1 (Lulus)</option>
+              <option value="JLPT N5">JLPT N5 (Lulus)</option>
+              <option value="なし / 学習中">Belum ada / Sedang belajar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="japaneseScore" data-i18n="score_label">Skor / Keterangan Ujian:</label>
+          <input type="text" id="japaneseScore" class="input-control" placeholder="Contoh: Skor 215 / Lulus April 2024" value="215点 (2024年4月合格)">
+        </div>
+      </div>
+
+      <!-- 3. Physical & Religion -->
+      <div class="card">
+        <h2 class="card-title" data-i18n="phys_title">3. Fisik & Agama (配慮事項)</h2>
+        <div class="field-row-3">
+          <div class="field-group">
+            <label for="height" data-i18n="height_label">Tinggi (cm):</label>
+            <input type="number" id="height" class="input-control" value="170">
+          </div>
+          <div class="field-group">
+            <label for="weight" data-i18n="weight_label">Berat (kg):</label>
+            <input type="number" id="weight" class="input-control" value="62">
+          </div>
+          <div class="field-group">
+            <label for="bloodType" data-i18n="blood_label">Gol. Darah:</label>
+            <select id="bloodType" class="input-control">
+              <option value="O型" selected>O</option>
+              <option value="A型">A</option>
+              <option value="B型">B</option>
+              <option value="AB型">AB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="religion" data-i18n="religion_label">Agama:</label>
+          <select id="religion" class="input-control">
+            <option value="イスラム教" selected>Islam (イスラム教)</option>
+            <option value="キリスト教（カトリック）">Kristen Katolik (カトリック)</option>
+            <option value="キリスト教（プロテスタント）">Kristen Protestan (プロテスタント)</option>
+            <option value="ヒンドゥー教">Hindu (ヒンドゥー教)</option>
+            <option value="仏教">Buddha (仏教)</option>
+            <option value="その他 / 特になし">Lainnya / Tidak ada</option>
+          </select>
+          <small class="help-text">💡 Jika memilih <strong>Islam</strong>, sistem otomatis mencantumkan catatan standar industri Jepang: <em>(Tidak makan babi/alkohol, ibadah salat dilakukan saat jam istirahat)</em>.</small>
+        </div>
+      </div>
+
+      <!-- 4. Academic History (with School Name & Lulus Button) -->
+      <div class="card">
+        <div class="card-header-flex">
+          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="edu_title">4. Riwayat Pendidikan (学歴)</h2>
+          <button type="button" id="addEduBtn" class="btn btn-sm btn-outline">+ Tambah Sekolah</button>
+        </div>
+        <p class="section-desc">Masukkan nama sekolah & jurusan. Tekan tombol <strong>🎓 Lulus (卒業)</strong> untuk mencatat kelulusan otomatis.</p>
+        <div id="eduContainer" class="dynamic-list"></div>
+      </div>
+
+      <!-- 5. Work Experience (with Start, End & "Sedang Bekerja" Button) -->
+      <div class="card">
+        <div class="card-header-flex">
+          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="work_title">5. Pengalaman Kerja (職歴)</h2>
+          <button type="button" id="addWorkBtn" class="btn btn-sm btn-outline">+ Tambah Pekerjaan</button>
+        </div>
+        <p class="section-desc">Masukkan nama perusahaan & posisi. Jika masih aktif, aktifkan tombol <strong>📌 Masih Bekerja (現在に至る)</strong>.</p>
+        <div id="workContainer" class="dynamic-list"></div>
+      </div>
+
+      <!-- 6. Original PDF Attachments for Auto-Merging -->
+      <div class="card">
+        <h2 class="card-title" data-i18n="cert_title">6. Lampiran Sertifikat Asli (JFT & SSW PDF)</h2>
+        <p class="section-desc">Pilih file PDF sertifikat kelulusan. Saat Anda menekan tombol <strong>📑 Unduh Dokumen Lengkap</strong> di atas, file PDF ini otomatis digabungkan di belakang CV menjadi 1 file PDF utuh.</p>
+        
+        <div class="field-group">
+          <label for="jftPdfInput">📄 Sertifikat JFT-Basic A2 (PDF):</label>
+          <input type="file" id="jftPdfInput" accept="application/pdf" class="input-control-file">
+          <div id="jftBadge" class="attachment-badge">⚪ Belum dilampirkan</div>
+        </div>
+
+        <div class="field-group">
+          <label for="sswPdfInput">📄 Sertifikat Ujian Keterampilan Tokutei Ginou / SSW (PDF):</label>
+          <input type="file" id="sswPdfInput" accept="application/pdf" class="input-control-file">
+          <div id="sswBadge" class="attachment-badge">⚪ Belum dilampirkan</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT COLUMN: Official Japanese Rirekisho A4 Preview -->
+    <section class="preview-pane">
+      <div class="a4-sheet" id="cvSheet">
+        
+        <div class="sheet-header">
+          <h1 class="sheet-title">履　歴　書</h1>
+          <div class="sheet-date" id="printDate">2026年 11月 11日 現在</div>
+        </div>
+        <div class="sheet-subtitle" id="previewVisaCategory">NUSALINK / 特定技能 人材調書</div>
+
+        <div class="table-container">
+          <table class="standard-table">
+            <colgroup>
+              <col style="width: 18%;">
+              <col style="width: 27%;">
+              <col style="width: 18%;">
+              <col style="width: 17%;">
+              <col style="width: 20%;">
+            </colgroup>
+            <tr>
+              <th class="cell-label">ふりがな</th>
+              <td colspan="3" class="cell-kana" id="previewKana">アフマッド ファウジ</td>
+              <td rowspan="4" class="photo-cell">
+                <div class="photo-placeholder" id="photoContainer">
+                  <img id="previewPhoto" class="photo-img" src="" alt="Candidate Photo" style="display: none;">
+                  <span id="photoText">写　真<br><small>(30mm × 40mm)</small></span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="cell-label">氏　名</th>
+              <td colspan="3" class="cell-name" id="previewName">AHMAD FAUZI</td>
+            </tr>
+            <tr>
+              <th class="cell-label">生年月日</th>
+              <td colspan="2" id="previewDob">2000年 05月 15日生</td>
+              <td id="previewAge" class="text-center">（満 26 歳）</td>
+            </tr>
+            <tr>
+              <th class="cell-label">国　籍</th>
+              <td id="previewNationality">インドネシア</td>
+              <th class="cell-label">性　別</th>
+              <td id="previewGender" class="text-center">男</td>
+            </tr>
+          </table>
+
+          <table class="standard-table sub-table">
+            <colgroup>
+              <col style="width: 18%;">
+              <col style="width: 32%;">
+              <col style="width: 18%;">
+              <col style="width: 32%;">
+            </colgroup>
+            <tr>
+              <th class="cell-label">身体測定</th>
+              <td id="previewBodyMetrics">身長: 170cm / 体重: 62kg</td>
+              <th class="cell-label">血液型</th>
+              <td id="previewBlood">O型</td>
+            </tr>
+            <tr>
+              <th class="cell-label">宗教・配慮事項</th>
+              <td colspan="3" id="previewReligionCare">
+                イスラム教（豚肉・アルコールNG、礼拝は休憩時間内に実施）
+              </td>
+            </tr>
+          </table>
+
+          <div class="section-divider">免許・資格・検定</div>
+          <table class="standard-table license-table">
+            <colgroup>
+              <col style="width: 15%;">
+              <col style="width: 10%;">
+              <col style="width: 75%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="cell-label">年</th>
+                <th class="cell-label">月</th>
+                <th class="cell-label">免　許　・　資　格　名　称</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">2024</td>
+                <td class="text-center">04</td>
+                <td id="previewCert1">国際日本語基礎テスト (JFT-Basic A2) 合格 (215点)</td>
+              </tr>
+              <tr>
+                <td class="text-center">2024</td>
+                <td class="text-center">06</td>
+                <td id="previewCert2">特定技能1号評価試験 合格</td>
+              </tr>
+              <tr>
+                <td class="text-center">2021</td>
+                <td class="text-center">05</td>
+                <td>インドネシア運転免許証 (普通自動車) 取得</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="section-divider">学歴・職歴</div>
+          <table class="standard-table history-table">
+            <colgroup>
+              <col style="width: 15%;">
+              <col style="width: 10%;">
+              <col style="width: 75%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="cell-label">年</th>
+                <th class="cell-label">月</th>
+                <th class="cell-label">学　歴　・　職　歴</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+
+        </div>
+
+        <div class="preview-notice no-print">
+          💡 <strong>Live Preview Standar Jepang</strong>: Anda cukup mengisi data dalam Bahasa Indonesia, dan sistem akan otomatis menerjemahkan dan menyusun format 履歴書 standar perusahaan & Imigrasi Jepang di sisi kanan ini.
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
