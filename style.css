@@ -1,3 +1,4 @@
+/* Mobile-First Responsive Stylesheet */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,12 +10,14 @@ body {
   background-color: #f7fafc;
   color: #2d3748;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Header */
 .app-header {
   background-color: #1a365d;
   color: #ffffff;
-  padding: 12px 28px;
+  padding: 10px 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   position: sticky;
   top: 0;
@@ -27,83 +30,114 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .logo-badge {
   background: #3182ce;
   color: #fff;
   font-weight: 800;
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  padding: 4px 8px;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  padding: 3px 6px;
   border-radius: 4px;
 }
 
 .logo h1 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Language Switcher */
 .lang-switch {
   display: flex;
   background: rgba(255, 255, 255, 0.15);
-  padding: 3px;
-  border-radius: 20px;
-  gap: 4px;
+  padding: 2px;
+  border-radius: 16px;
+  gap: 2px;
 }
 
 .lang-btn {
   background: transparent;
   border: none;
   color: #e2e8f0;
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 16px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.lang-btn:hover {
-  color: #fff;
 }
 
 .lang-btn.active {
   background: #ffffff;
   color: #1a365d;
+}
+
+/* Mobile View Mode Tabs */
+.mobile-tabs {
+  display: none;
+  margin-top: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 6px;
+}
+
+.mobile-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #e2e8f0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.mobile-tab-btn.active {
+  background: #ffffff;
+  color: #1a365d;
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 
+/* Action Buttons */
 .btn {
   border: none;
   border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 8px 16px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 14px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-height: 38px;
 }
 
 .btn-sm {
   font-size: 0.8rem;
-  padding: 4px 10px;
-  border-radius: 4px;
+  padding: 5px 10px;
+  min-height: 32px;
 }
 
 .btn-primary {
@@ -126,10 +160,6 @@ body {
   color: #3182ce;
 }
 
-.btn-outline:hover {
-  background-color: #ebf8ff;
-}
-
 .btn-delete {
   background-color: #fff5f5;
   color: #e53e3e;
@@ -138,27 +168,20 @@ body {
   padding: 4px 8px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.82rem;
-  transition: all 0.2s;
+  font-size: 0.78rem;
 }
 
-.btn-delete:hover {
-  background-color: #e53e3e;
-  color: #fff;
-}
-
-/* Status Toggle Button (Lulus / Sedang Bekerja) */
 .toggle-btn {
   border: 1.5px solid #cbd5e0;
   background: #edf2f7;
   color: #4a5568;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
+  min-height: 38px;
 }
 
 .toggle-btn.active-grad {
@@ -174,21 +197,22 @@ body {
 }
 
 .status-banner {
-  padding: 12px 24px;
+  padding: 10px 16px;
   background: #ebf8ff;
   color: #2b6cb0;
   border-bottom: 1px solid #bee3f8;
   text-align: center;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
+/* Layout */
 .app-container {
   max-width: 1400px;
-  margin: 24px auto;
-  padding: 0 24px;
+  margin: 16px auto;
+  padding: 0 16px;
   display: flex;
-  gap: 28px;
+  gap: 24px;
   align-items: flex-start;
 }
 
@@ -196,19 +220,35 @@ body {
   flex: 1.15;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .preview-pane {
   flex: 1.35;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
+.preview-actions-bar {
+  display: none;
+  width: 100%;
+  margin-bottom: 12px;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.mobile-bottom-bar {
+  display: none;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+/* Cards & Inputs */
 .card {
   background: #ffffff;
   border-radius: 10px;
-  padding: 20px 24px;
+  padding: 16px 18px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
@@ -217,52 +257,105 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .card-title {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #2b6cb0;
-  margin-bottom: 14px;
-  padding-bottom: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
   border-bottom: 1.5px solid #edf2f7;
 }
 
 .section-desc {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #718096;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .field-group {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 12px;
 }
 
 .field-row-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 4px;
+}
+
+/* 16px font-size prevents iOS Safari zoom-in on input tap */
+.input-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #2d3748;
+  background-color: #fff;
+  transition: border-color 0.2s;
+  min-height: 42px;
+}
+
+.input-control:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+.input-control-file {
+  font-size: 0.85rem;
+}
+
+.attachment-badge {
+  font-size: 0.78rem;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #edf2f7;
+  display: inline-block;
+}
+
+.attachment-badge.attached {
+  background: #c6f6d5;
+  color: #22543d;
+  font-weight: 700;
+}
+
+.help-text {
+  font-size: 0.72rem;
+  color: #718096;
+  margin-top: 4px;
+  display: block;
 }
 
 /* Dynamic Item Cards */
 .dynamic-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .dynamic-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -282,78 +375,37 @@ body {
 }
 
 .dynamic-year {
-  width: 72px !important;
+  width: 76px !important;
   text-align: center;
 }
 
 .dynamic-month {
-  width: 52px !important;
+  width: 54px !important;
   text-align: center;
 }
 
 .date-separator {
   font-size: 0.85rem;
   color: #718096;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-label {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 5px;
-}
-
-.input-control {
+/* A4 Sheet Container */
+.sheet-viewport-wrapper {
   width: 100%;
-  padding: 8px 10px;
-  border: 1.5px solid #cbd5e0;
-  border-radius: 6px;
-  font-size: 0.88rem;
-  color: #2d3748;
-  background-color: #fff;
-  transition: border-color 0.2s;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20px;
 }
 
-.input-control:focus {
-  outline: none;
-  border-color: #3182ce;
-  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
-}
-
-.input-control-file {
-  font-size: 0.85rem;
-}
-
-.attachment-badge {
-  font-size: 0.8rem;
-  margin-top: 6px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: #edf2f7;
-  display: inline-block;
-}
-
-.attachment-badge.attached {
-  background: #c6f6d5;
-  color: #22543d;
-  font-weight: 600;
-}
-
-.help-text {
-  font-size: 0.72rem;
-  color: #718096;
-  margin-top: 4px;
-  display: block;
-}
-
-/* A4 Sheet Japanese Preview */
 .a4-sheet {
   background: #ffffff;
   width: 210mm;
+  min-width: 210mm;
   min-height: 297mm;
-  padding: 15mm 15mm;
+  padding: 12mm 12mm;
   box-sizing: border-box;
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   border-radius: 2px;
@@ -370,22 +422,22 @@ label {
 }
 
 .sheet-title {
-  font-size: 1.6rem;
-  letter-spacing: 14px;
+  font-size: 1.5rem;
+  letter-spacing: 12px;
   font-weight: 800;
 }
 
 .sheet-date {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .sheet-subtitle {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-align: right;
   color: #333;
-  margin-top: 4px;
-  margin-bottom: 10px;
+  margin-top: 3px;
+  margin-bottom: 8px;
 }
 
 .table-container {
@@ -409,8 +461,8 @@ label {
 
 .standard-table th, .standard-table td {
   border: 1px solid #000;
-  padding: 5px 8px;
-  font-size: 0.82rem;
+  padding: 5px 7px;
+  font-size: 0.8rem;
   vertical-align: middle;
 }
 
@@ -418,17 +470,17 @@ label {
   background-color: #f7fafc;
   font-weight: 700;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 }
 
 .cell-kana {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #555;
-  height: 20px;
+  height: 18px;
 }
 
 .cell-name {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: 1px;
 }
@@ -438,12 +490,12 @@ label {
 }
 
 .section-divider {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 800;
   text-align: center;
-  letter-spacing: 6px;
-  padding: 4px 0;
-  margin-top: 8px;
+  letter-spacing: 4px;
+  padding: 3px 0;
+  margin-top: 6px;
   border-top: 2px solid #000;
   border-bottom: 1px solid #000;
   background: #f7fafc;
@@ -452,15 +504,15 @@ label {
 .history-sub-header {
   text-align: center;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   background: #fafafa;
 }
 
 .text-right-end {
   text-align: right;
   font-weight: 700;
-  letter-spacing: 6px;
-  padding-right: 16px;
+  letter-spacing: 4px;
+  padding-right: 12px;
 }
 
 .photo-cell {
@@ -480,7 +532,7 @@ label {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #718096;
   overflow: hidden;
   background: #fdfdfd;
@@ -493,34 +545,85 @@ label {
 }
 
 .preview-notice {
-  margin-top: 20px;
-  padding: 10px 14px;
+  margin-top: 16px;
+  padding: 8px 12px;
   background-color: #ebf8ff;
   border-left: 4px solid #3182ce;
   border-radius: 4px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: #2b6cb0;
 }
 
-@media (max-width: 1100px) {
+/* -----------------------------------------------------------
+   RESPONSIVE MOBILE BREAKPOINTS (Screen <= 900px)
+----------------------------------------------------------- */
+@media (max-width: 900px) {
   .app-container {
-    flex-direction: column;
-    align-items: stretch;
+    padding: 0 10px;
+    margin: 10px auto;
   }
-  .a4-sheet {
-    width: 100%;
-    min-height: auto;
-    padding: 16px;
+
+  /* Show Mobile Tabs Bar */
+  .mobile-tabs {
+    display: flex;
+  }
+
+  .btn-header {
+    display: none !important;
+  }
+
+  .mobile-bottom-bar {
+    display: flex;
+  }
+
+  .preview-actions-bar {
+    display: flex;
+  }
+
+  /* By default on mobile, show Editor and hide Preview until switched */
+  .editor-pane.mobile-hidden {
+    display: none !important;
+  }
+
+  .preview-pane.mobile-hidden {
+    display: none !important;
+  }
+
+  /* Scale A4 sheet slightly on tablets */
+  .sheet-viewport-wrapper {
+    justify-content: flex-start;
   }
 }
 
+@media (max-width: 650px) {
+  .header-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .field-row, .field-row-3 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .dynamic-dates-row {
+    flex-direction: row;
+  }
+
+  .toggle-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Clean Print Mode */
 @media print {
   body {
     background: #fff;
     padding: 0;
     margin: 0;
   }
-  .app-header, .editor-pane, .no-print, .status-banner {
+  .app-header, .editor-pane, .no-print, .status-banner, .preview-actions-bar {
     display: none !important;
   }
   .app-container {
@@ -529,11 +632,17 @@ label {
     display: block;
   }
   .preview-pane {
-    display: block;
+    display: block !important;
     width: 100%;
+  }
+  .sheet-viewport-wrapper {
+    padding: 0;
+    overflow: visible;
+    display: block;
   }
   .a4-sheet {
     width: 100%;
+    min-width: 100%;
     box-shadow: none;
     padding: 0;
     margin: 0;

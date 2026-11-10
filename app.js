@@ -685,3 +685,77 @@ setJapaneseDate();
 renderEduInputs();
 renderWorkInputs();
 updateLivePreview();
+
+
+// -------------------------------------------------------------
+// MOBILE RESPONSIVE TAB SWITCHER LOGIC
+// -------------------------------------------------------------
+const tabFormBtn = document.getElementById("tabFormBtn");
+const tabPreviewBtn = document.getElementById("tabPreviewBtn");
+const editorSection = document.getElementById("editorSection");
+const previewSection = document.getElementById("previewSection");
+const mobilePreviewTrigger = document.getElementById("mobilePreviewTrigger");
+const backToFormBtn = document.getElementById("backToFormBtn");
+const mobileDownloadTrigger = document.getElementById("mobileDownloadTrigger");
+const previewDownloadBtn = document.getElementById("previewDownloadBtn");
+
+function showMobileTab(tab) {
+  if (window.innerWidth <= 900) {
+    if (tab === "form") {
+      editorSection.classList.remove("mobile-hidden");
+      previewSection.classList.add("mobile-hidden");
+      tabFormBtn.classList.add("active");
+      tabPreviewBtn.classList.remove("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      editorSection.classList.add("mobile-hidden");
+      previewSection.classList.remove("mobile-hidden");
+      tabFormBtn.classList.remove("active");
+      tabPreviewBtn.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  } else {
+    editorSection.classList.remove("mobile-hidden");
+    previewSection.classList.remove("mobile-hidden");
+  }
+}
+
+if (tabFormBtn && tabPreviewBtn) {
+  tabFormBtn.addEventListener("click", () => showMobileTab("form"));
+  tabPreviewBtn.addEventListener("click", () => showMobileTab("preview"));
+}
+
+if (mobilePreviewTrigger) {
+  mobilePreviewTrigger.addEventListener("click", () => showMobileTab("preview"));
+}
+
+if (backToFormBtn) {
+  backToFormBtn.addEventListener("click", () => showMobileTab("form"));
+}
+
+if (mobileDownloadTrigger) {
+  mobileDownloadTrigger.addEventListener("click", () => elements.downloadDossierBtn.click());
+}
+
+if (previewDownloadBtn) {
+  previewDownloadBtn.addEventListener("click", () => elements.downloadDossierBtn.click());
+}
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 900) {
+    editorSection.classList.remove("mobile-hidden");
+    previewSection.classList.remove("mobile-hidden");
+  } else {
+    // Keep current active tab state
+    if (tabPreviewBtn.classList.contains("active")) {
+      showMobileTab("preview");
+    } else {
+      showMobileTab("form");
+    }
+  }
+});
+
+// Run mobile check on startup
+if (window.innerWidth <= 900) {
+  showMobileTab("form");
+}
