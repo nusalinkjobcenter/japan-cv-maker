@@ -20,6 +20,13 @@ const elements = {
   sswBadge: document.getElementById("sswBadge"),
   downloadDossierBtn: document.getElementById("downloadDossierBtn"),
   statusBanner: document.getElementById("statusBanner"),
+  phoneCode: document.getElementById("phoneCode"),
+  phoneNumber: document.getElementById("phoneNumber"),
+  email: document.getElementById("email"),
+  address: document.getElementById("address"),
+  previewPhone: document.getElementById("previewPhone"),
+  previewEmail: document.getElementById("previewEmail"),
+  previewAddress: document.getElementById("previewAddress"),
   eduContainer: document.getElementById("eduContainer"),
   workContainer: document.getElementById("workContainer"),
   addEduBtn: document.getElementById("addEduBtn"),
@@ -62,7 +69,11 @@ const translations = {
     nat_label: "Kewarganegaraan:",
     lang_label: "Sertifikat Bahasa Jepang:",
     score_label: "Skor / Keterangan Ujian:",
-    phys_title: "3. Fisik & Agama (配慮事項)",
+    contact_title: "3. Kontak & Alamat Domisili (連絡先・現住所)",
+    phone_label: "Nomor Telepon / WhatsApp (電話番号):",
+    email_label: "Alamat Email (E-mail):",
+    address_label: "Alamat Lengkap Saat Ini (現住所):",
+    phys_title: "4. Fisik & Agama (配慮事項)",
     height_label: "Tinggi (cm):",
     weight_label: "Berat (kg):",
     blood_label: "Gol. Darah:",
@@ -233,6 +244,21 @@ function updateLivePreview() {
     elements.previewCert1.textContent = level + " 合格" + score;
   } else {
     elements.previewCert1.textContent = "日本語学習中" + score;
+  }
+
+  // Phone, Email & Address Binding
+  const codeVal = (elements.phoneCode && elements.phoneCode.value) ? (elements.phoneCode.value + " ") : "";
+  const numVal = (elements.phoneNumber && elements.phoneNumber.value) ? elements.phoneNumber.value.trim() : "";
+  if (elements.previewPhone) {
+    elements.previewPhone.textContent = (codeVal || numVal) ? (codeVal + numVal) : "―";
+  }
+
+  if (elements.previewEmail) {
+    elements.previewEmail.textContent = (elements.email && elements.email.value) ? elements.email.value.trim() : "―";
+  }
+
+  if (elements.previewAddress) {
+    elements.previewAddress.textContent = (elements.address && elements.address.value) ? elements.address.value.trim() : "―";
   }
 
   renderHistoryTablePreview();
@@ -515,6 +541,21 @@ function renderHistoryTablePreview() {
 elements.addEduBtn.addEventListener("click", () => {
   educationList.push({ year: "2020", month: "06", school: "", major: "", isGrad: true });
   renderEduInputs();
+  // Phone, Email & Address Binding
+  const codeVal = (elements.phoneCode && elements.phoneCode.value) ? (elements.phoneCode.value + " ") : "";
+  const numVal = (elements.phoneNumber && elements.phoneNumber.value) ? elements.phoneNumber.value.trim() : "";
+  if (elements.previewPhone) {
+    elements.previewPhone.textContent = (codeVal || numVal) ? (codeVal + numVal) : "―";
+  }
+
+  if (elements.previewEmail) {
+    elements.previewEmail.textContent = (elements.email && elements.email.value) ? elements.email.value.trim() : "―";
+  }
+
+  if (elements.previewAddress) {
+    elements.previewAddress.textContent = (elements.address && elements.address.value) ? elements.address.value.trim() : "―";
+  }
+
   renderHistoryTablePreview();
 });
 
@@ -529,6 +570,21 @@ elements.addWorkBtn.addEventListener("click", () => {
     isCurrent: true
   });
   renderWorkInputs();
+  // Phone, Email & Address Binding
+  const codeVal = (elements.phoneCode && elements.phoneCode.value) ? (elements.phoneCode.value + " ") : "";
+  const numVal = (elements.phoneNumber && elements.phoneNumber.value) ? elements.phoneNumber.value.trim() : "";
+  if (elements.previewPhone) {
+    elements.previewPhone.textContent = (codeVal || numVal) ? (codeVal + numVal) : "―";
+  }
+
+  if (elements.previewEmail) {
+    elements.previewEmail.textContent = (elements.email && elements.email.value) ? elements.email.value.trim() : "―";
+  }
+
+  if (elements.previewAddress) {
+    elements.previewAddress.textContent = (elements.address && elements.address.value) ? elements.address.value.trim() : "―";
+  }
+
   renderHistoryTablePreview();
 });
 
@@ -674,8 +730,12 @@ elements.downloadDossierBtn.addEventListener("click", async function() {
   elements.height,
   elements.weight,
   elements.bloodType,
-  elements.religion
-].forEach(input => {
+  elements.religion,
+  elements.phoneCode,
+  elements.phoneNumber,
+  elements.email,
+  elements.address
+].filter(Boolean).forEach(input => {
   input.addEventListener("input", updateLivePreview);
   input.addEventListener("change", updateLivePreview);
 });
@@ -688,107 +748,60 @@ updateLivePreview();
 
 
 // -------------------------------------------------------------
-// MOBILE RESPONSIVE TAB SWITCHER LOGIC
+
+// -------------------------------------------------------------
+// PURE MANUAL TAB SWITCHER (Zero Scroll Hijacking, Zero Resize Triggers)
 // -------------------------------------------------------------
 const tabFormBtn = document.getElementById("tabFormBtn");
 const tabPreviewBtn = document.getElementById("tabPreviewBtn");
 const editorSection = document.getElementById("editorSection");
 const previewSection = document.getElementById("previewSection");
-const mobilePreviewTrigger = document.getElementById("mobilePreviewTrigger");
-const backToFormBtn = document.getElementById("backToFormBtn");
-const mobileDownloadTrigger = document.getElementById("mobileDownloadTrigger");
-const previewDownloadBtn = document.getElementById("previewDownloadBtn");
-
-// FIXED: No automatic jumping to top when virtual keyboard appears!
-function showMobileTab(tab, shouldScroll = false) {
-  if (window.innerWidth <= 900) {
-    if (tab === "form") {
-      editorSection.classList.remove("mobile-hidden");
-      previewSection.classList.add("mobile-hidden");
-      tabFormBtn.classList.add("active");
-      tabPreviewBtn.classList.remove("active");
-      if (shouldScroll) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    } else {
-      editorSection.classList.add("mobile-hidden");
-      previewSection.classList.remove("mobile-hidden");
-      tabFormBtn.classList.remove("active");
-      tabPreviewBtn.classList.add("active");
-      if (shouldScroll) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }
-  } else {
-    editorSection.classList.remove("mobile-hidden");
-    previewSection.classList.remove("mobile-hidden");
-  }
-}
-
-if (tabFormBtn && tabPreviewBtn) {
-  tabFormBtn.addEventListener("click", () => showMobileTab("form", true));
-  tabPreviewBtn.addEventListener("click", () => showMobileTab("preview", true));
-}
-
-if (mobilePreviewTrigger) {
-  mobilePreviewTrigger.addEventListener("click", () => showMobileTab("preview", true));
-}
-
-if (backToFormBtn) {
-  backToFormBtn.addEventListener("click", () => showMobileTab("form", true));
-}
-
-if (mobileDownloadTrigger) {
-  mobileDownloadTrigger.addEventListener("click", () => elements.downloadDossierBtn.click());
-}
-
-if (previewDownloadBtn) {
-  previewDownloadBtn.addEventListener("click", () => elements.downloadDossierBtn.click());
-}
-
-// Ignore mobile keyboard resize events! Only toggle if crossing 900px breakpoint
-let lastWidth = window.innerWidth;
-window.addEventListener("resize", () => {
-  const currentWidth = window.innerWidth;
-  if (currentWidth === lastWidth) return; // Keyboard showed/hid (height changed, width didn't!)
-  lastWidth = currentWidth;
-
-  if (currentWidth > 900) {
-    editorSection.classList.remove("mobile-hidden");
-    previewSection.classList.remove("mobile-hidden");
-  } else {
-    if (tabPreviewBtn.classList.contains("active")) {
-      showMobileTab("preview", false);
-    } else {
-      showMobileTab("form", false);
-    }
-  }
-});
-
-// Run mobile check on startup without scrolling
-if (window.innerWidth <= 900) {
-  showMobileTab("form", false);
-}
-
-
-// Sticky Bottom Bar Wiring
 const mobilePreviewToggleBtn = document.getElementById("mobilePreviewToggleBtn");
 const mobileDownloadBtn = document.getElementById("mobileDownloadBtn");
+
+function switchTab(target) {
+  if (target === "form") {
+    editorSection.classList.remove("mobile-hidden");
+    previewSection.classList.add("mobile-hidden");
+    if (tabFormBtn) tabFormBtn.classList.add("active");
+    if (tabPreviewBtn) tabPreviewBtn.classList.remove("active");
+    if (mobilePreviewToggleBtn) mobilePreviewToggleBtn.textContent = "👁️ Lihat CV";
+  } else {
+    editorSection.classList.add("mobile-hidden");
+    previewSection.classList.remove("mobile-hidden");
+    if (tabFormBtn) tabFormBtn.classList.remove("active");
+    if (tabPreviewBtn) tabPreviewBtn.classList.add("active");
+    if (mobilePreviewToggleBtn) mobilePreviewToggleBtn.textContent = "📝 Formulir";
+  }
+}
+
+if (tabFormBtn) {
+  tabFormBtn.addEventListener("click", () => switchTab("form"));
+}
+
+if (tabPreviewBtn) {
+  tabPreviewBtn.addEventListener("click", () => switchTab("preview"));
+}
 
 if (mobilePreviewToggleBtn) {
   mobilePreviewToggleBtn.addEventListener("click", () => {
     if (editorSection.classList.contains("mobile-hidden")) {
-      showMobileTab("form");
-      mobilePreviewToggleBtn.textContent = "👁️ Lihat CV";
+      switchTab("form");
     } else {
-      showMobileTab("preview");
-      mobilePreviewToggleBtn.textContent = "📝 Kembali ke Form";
+      switchTab("preview");
     }
   });
 }
 
 if (mobileDownloadBtn) {
   mobileDownloadBtn.addEventListener("click", () => {
-    elements.downloadDossierBtn.click();
+    if (elements.downloadDossierBtn) {
+      elements.downloadDossierBtn.click();
+    }
   });
+}
+
+// Initial state on mobile
+if (window.innerWidth <= 900) {
+  switchTab("form");
 }

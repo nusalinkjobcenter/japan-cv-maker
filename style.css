@@ -672,3 +672,40 @@ label {
     margin: 10mm;
   }
 }
+
+
+/* Phone Input Group with Country Code */
+.phone-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.phone-code-select {
+  flex: 0 0 160px !important;
+  min-width: 140px;
+}
+
+.phone-number-input {
+  flex: 1 !important;
+}
+
+.address-cell {
+  font-size: 0.78rem !important;
+  line-height: 1.3 !important;
+  word-break: break-word;
+}
+
+.email-cell {
+  font-size: 0.75rem !important;
+  word-break: break-all !important;
+}
+
+@media (max-width: 650px) {
+  .phone-code-select {
+    flex: 0 0 135px !important;
+    min-width: 120px;
+    font-size: 14px !important;
+  }
+}

@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#1a365d">
   <title>Pembuat CV & Dossier Jepang | Tokutei Ginou, Ginou Jisshuu, Gijinkoku</title>
   
-  <!-- Cache buster query string ?v=2 to force Mobile Safari reload -->
-  <link rel="stylesheet" href="style.css?v=3">
+  <!-- Cache buster query string ?v=5 -->
+  <link rel="stylesheet" href="style.css?v=5">
   <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
@@ -28,7 +28,7 @@
         <button type="button" class="lang-btn" data-lang="en">EN</button>
       </div>
 
-      <!-- Desktop only header actions (hidden on mobile) -->
+      <!-- Desktop only header actions -->
       <div class="desktop-actions no-print">
         <button id="downloadDossierBtn" class="btn btn-primary">
           📑 Unduh PDF Dossier
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <!-- Mobile Tabs (Clean Full-Width Segments) -->
+    <!-- Mobile Tabs (Clean Full-Width 2-Segment Control) -->
     <nav class="mobile-tabs no-print">
       <button type="button" id="tabFormBtn" class="mobile-tab-btn active">📝 1. Isi Formulir</button>
       <button type="button" id="tabPreviewBtn" class="mobile-tab-btn">👁️ 2. Pratinjau CV A4</button>
@@ -136,9 +136,48 @@
         </div>
       </div>
 
-      <!-- 3. Physical & Religion -->
+      <!-- 3. NEW: Contact Information & Address (Kontak & Alamat) -->
       <div class="card">
-        <h2 class="card-title" data-i18n="phys_title">3. Fisik & Agama (配慮事項)</h2>
+        <h2 class="card-title" data-i18n="contact_title">3. Kontak & Alamat Domisili (連絡先・現住所)</h2>
+        
+        <!-- Phone number with country code pulldown -->
+        <div class="field-group">
+          <label for="phoneNumber" data-i18n="phone_label">Nomor Telepon / WhatsApp (電話番号):</label>
+          <div class="phone-input-group">
+            <select id="phoneCode" class="input-control phone-code-select">
+              <option value="+62" selected>🇮🇩 Indonesia (+62)</option>
+              <option value="+81">🇯🇵 Jepang (+81)</option>
+              <option value="+84">🇻🇳 Vietnam (+84)</option>
+              <option value="+63">🇵🇭 Filipina (+63)</option>
+              <option value="+95">🇲🇲 Myanmar (+95)</option>
+              <option value="+977">🇳🇵 Nepal (+977)</option>
+              <option value="+855">🇰🇭 Kamboja (+855)</option>
+              <option value="+66">🇹🇭 Thailand (+66)</option>
+              <option value="+60">🇲🇾 Malaysia (+60)</option>
+              <option value="">Lainnya</option>
+            </select>
+            <input type="tel" id="phoneNumber" class="input-control phone-number-input" placeholder="812-3456-7890" value="812-3456-7890">
+          </div>
+          <small class="help-text">Pilih kode negara lalu ketik nomor HP (tanpa angka 0 di depan jika +62).</small>
+        </div>
+
+        <!-- Email address -->
+        <div class="field-group">
+          <label for="email" data-i18n="email_label">Alamat Email (E-mail):</label>
+          <input type="email" id="email" class="input-control" placeholder="Contoh: ahmad.fauzi@gmail.com" value="ahmad.fauzi@gmail.com">
+        </div>
+
+        <!-- Full Current Address -->
+        <div class="field-group">
+          <label for="address" data-i18n="address_label">Alamat Lengkap Saat Ini (現住所):</label>
+          <input type="text" id="address" class="input-control" placeholder="Contoh: Dusun Krajan RT 02/01, Cikampek, Karawang, Jawa Barat, Indonesia" value="Dusun Krajan RT 02/01, Cikampek, Karawang, Jawa Barat, Indonesia">
+          <small class="help-text">Alamat domisili saat ini (Indonesia atau Jepang).</small>
+        </div>
+      </div>
+
+      <!-- 4. Physical & Religion -->
+      <div class="card">
+        <h2 class="card-title" data-i18n="phys_title">4. Fisik & Agama (配慮事項)</h2>
         <div class="field-row-3">
           <div class="field-group">
             <label for="height" data-i18n="height_label">Tinggi (cm):</label>
@@ -173,29 +212,29 @@
         </div>
       </div>
 
-      <!-- 4. Academic History -->
+      <!-- 5. Academic History -->
       <div class="card">
         <div class="card-header-flex">
-          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="edu_title">4. Riwayat Pendidikan (学歴)</h2>
+          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="edu_title">5. Riwayat Pendidikan (学歴)</h2>
           <button type="button" id="addEduBtn" class="btn btn-sm btn-outline">+ Tambah</button>
         </div>
         <p class="section-desc">Nama sekolah & jurusan. Tekan tombol <strong>🎓 Lulus</strong> untuk mencatat kelulusan.</p>
         <div id="eduContainer" class="dynamic-list"></div>
       </div>
 
-      <!-- 5. Work Experience -->
+      <!-- 6. Work Experience -->
       <div class="card">
         <div class="card-header-flex">
-          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="work_title">5. Pengalaman Kerja (職歴)</h2>
+          <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="work_title">6. Pengalaman Kerja (職歴)</h2>
           <button type="button" id="addWorkBtn" class="btn btn-sm btn-outline">+ Tambah</button>
         </div>
         <p class="section-desc">Nama perusahaan & posisi. Jika masih aktif, tekan <strong>📌 Masih Bekerja</strong>.</p>
         <div id="workContainer" class="dynamic-list"></div>
       </div>
 
-      <!-- 6. Original PDF Attachments -->
+      <!-- 7. Original PDF Attachments -->
       <div class="card">
-        <h2 class="card-title" data-i18n="cert_title">6. Lampiran Sertifikat (JFT & SSW)</h2>
+        <h2 class="card-title" data-i18n="cert_title">7. Lampiran Sertifikat (JFT & SSW)</h2>
         <p class="section-desc">File PDF akan otomatis digabungkan di belakang CV menjadi 1 berkas dossier utuh.</p>
         
         <div class="field-group">
@@ -259,6 +298,18 @@
                 <td id="previewNationality">インドネシア</td>
                 <th class="cell-label">性　別</th>
                 <td id="previewGender" class="text-center">男</td>
+              </tr>
+              <!-- NEW: Current Address Row -->
+              <tr>
+                <th class="cell-label">現住所</th>
+                <td colspan="4" id="previewAddress" class="address-cell">Dusun Krajan RT 02/01, Cikampek, Karawang, Jawa Barat, Indonesia</td>
+              </tr>
+              <!-- NEW: Phone & Email Row -->
+              <tr>
+                <th class="cell-label">電話番号</th>
+                <td colspan="2" id="previewPhone">+62 812-3456-7890</td>
+                <th class="cell-label">E-mail</th>
+                <td id="previewEmail" class="email-cell">ahmad.fauzi@gmail.com</td>
               </tr>
             </table>
 
@@ -352,6 +403,6 @@
     <button type="button" id="mobileDownloadBtn" class="btn btn-primary mobile-bar-btn">📑 Unduh PDF</button>
   </footer>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
