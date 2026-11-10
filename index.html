@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#1a365d">
   <title>Pembuat CV & Dossier Jepang | Tokutei Ginou, Ginou Jisshuu, Gijinkoku</title>
-  <link rel="stylesheet" href="style.css">
+  
+  <!-- Cache buster query string ?v=2 to force Mobile Safari reload -->
+  <link rel="stylesheet" href="style.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
@@ -13,35 +15,35 @@
 
   <!-- Top App Navigation -->
   <header class="app-header">
-    <div class="header-container">
+    <div class="header-top">
       <div class="logo">
         <span class="logo-badge">NUSALINK</span>
-        <h1>CV Jepang</h1>
+        <span class="logo-title">CV Jepang</span>
       </div>
       
-      <div class="header-actions">
-        <!-- Language Switcher -->
-        <div class="lang-switch">
-          <button type="button" class="lang-btn active" data-lang="id">🇮🇩 ID</button>
-          <button type="button" class="lang-btn" data-lang="ja">🇯🇵 日本語</button>
-          <button type="button" class="lang-btn" data-lang="en">🇬🇧 EN</button>
-        </div>
+      <!-- Compact Language Switcher -->
+      <div class="lang-switch">
+        <button type="button" class="lang-btn active" data-lang="id">ID</button>
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
 
-        <!-- Download Action -->
-        <button id="downloadDossierBtn" class="btn btn-primary btn-header">
+      <!-- Desktop only header actions (hidden on mobile) -->
+      <div class="desktop-actions no-print">
+        <button id="downloadDossierBtn" class="btn btn-primary">
           📑 Unduh PDF Dossier
         </button>
-        <button id="printBtn" class="btn btn-secondary btn-header no-print" onclick="window.print()">
+        <button id="printBtn" class="btn btn-secondary" onclick="window.print()">
           🖨️ Cetak
         </button>
       </div>
     </div>
 
-    <!-- Mobile View Mode Tabs (Visible only on mobile/tablet) -->
-    <div class="mobile-tabs no-print">
+    <!-- Mobile Tabs (Clean Full-Width Segments) -->
+    <nav class="mobile-tabs no-print">
       <button type="button" id="tabFormBtn" class="mobile-tab-btn active">📝 1. Isi Formulir</button>
       <button type="button" id="tabPreviewBtn" class="mobile-tab-btn">👁️ 2. Pratinjau CV A4</button>
-    </div>
+    </nav>
   </header>
 
   <!-- Notification Banner -->
@@ -50,7 +52,7 @@
   <!-- Main Container -->
   <main class="app-container">
     
-    <!-- LEFT / TAB 1: Editor Form -->
+    <!-- TAB 1: Editor Form -->
     <section class="editor-pane" id="editorSection">
       
       <!-- 1. Visa Track -->
@@ -61,7 +63,7 @@
           <select id="visaType" class="input-control">
             <option value="特定技能 (Specified Skilled Worker)" selected>Tokutei Ginou / SSW (特定技能 1号)</option>
             <option value="技能実習 / 育成就労 (Technical Intern)">Ginou Jisshuu / Magang (技能実習・育成就労)</option>
-            <option value="技術・人文知識・国際業務 (Engineer/Specialist)">Gijinkoku / Visa Kerja Ahli (技術・人文・国際業務)</option>
+            <option value="技術・人文知識・国際業務 (Engineer/Specialist)">Gijinkoku / Visa Ahli (技術・人文・国際業務)</option>
           </select>
         </div>
       </div>
@@ -171,30 +173,30 @@
         </div>
       </div>
 
-      <!-- 4. Academic History (with School Name & Lulus Button) -->
+      <!-- 4. Academic History -->
       <div class="card">
         <div class="card-header-flex">
           <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="edu_title">4. Riwayat Pendidikan (学歴)</h2>
-          <button type="button" id="addEduBtn" class="btn btn-sm btn-outline">+ Tambah Sekolah</button>
+          <button type="button" id="addEduBtn" class="btn btn-sm btn-outline">+ Tambah</button>
         </div>
-        <p class="section-desc">Masukkan nama sekolah & jurusan. Tekan tombol <strong>🎓 Lulus (卒業)</strong> untuk mencatat kelulusan.</p>
+        <p class="section-desc">Nama sekolah & jurusan. Tekan tombol <strong>🎓 Lulus</strong> untuk mencatat kelulusan.</p>
         <div id="eduContainer" class="dynamic-list"></div>
       </div>
 
-      <!-- 5. Work Experience (with Start, End & "Sedang Bekerja" Button) -->
+      <!-- 5. Work Experience -->
       <div class="card">
         <div class="card-header-flex">
           <h2 class="card-title" style="margin-bottom:0; border-bottom:none;" data-i18n="work_title">5. Pengalaman Kerja (職歴)</h2>
-          <button type="button" id="addWorkBtn" class="btn btn-sm btn-outline">+ Tambah Pekerjaan</button>
+          <button type="button" id="addWorkBtn" class="btn btn-sm btn-outline">+ Tambah</button>
         </div>
-        <p class="section-desc">Masukkan perusahaan & posisi. Jika masih aktif, tekan <strong>📌 Masih Bekerja (現在に至る)</strong>.</p>
+        <p class="section-desc">Nama perusahaan & posisi. Jika masih aktif, tekan <strong>📌 Masih Bekerja</strong>.</p>
         <div id="workContainer" class="dynamic-list"></div>
       </div>
 
-      <!-- 6. Original PDF Attachments for Auto-Merging -->
+      <!-- 6. Original PDF Attachments -->
       <div class="card">
-        <h2 class="card-title" data-i18n="cert_title">6. Lampiran Sertifikat Asli (JFT & SSW PDF)</h2>
-        <p class="section-desc">Upload file PDF sertifikat kelulusan agar otomatis digabungkan di belakang CV menjadi 1 berkas dossier.</p>
+        <h2 class="card-title" data-i18n="cert_title">6. Lampiran Sertifikat (JFT & SSW)</h2>
+        <p class="section-desc">File PDF akan otomatis digabungkan di belakang CV menjadi 1 berkas dossier utuh.</p>
         
         <div class="field-group">
           <label for="jftPdfInput">📄 Sertifikat JFT-Basic A2 (PDF):</label>
@@ -203,28 +205,17 @@
         </div>
 
         <div class="field-group">
-          <label for="sswPdfInput">📄 Sertifikat Ujian SSW / Keterampilan (PDF):</label>
+          <label for="sswPdfInput">📄 Sertifikat Ujian SSW (PDF):</label>
           <input type="file" id="sswPdfInput" accept="application/pdf" class="input-control-file">
           <div id="sswBadge" class="attachment-badge">⚪ Belum dilampirkan</div>
         </div>
       </div>
 
-      <!-- Bottom Mobile Download Trigger -->
-      <div class="mobile-bottom-bar no-print">
-        <button type="button" id="mobilePreviewTrigger" class="btn btn-secondary" style="flex:1;">👁️ Lihat Pratinjau CV</button>
-        <button type="button" id="mobileDownloadTrigger" class="btn btn-primary" style="flex:1.2;">📑 Unduh PDF</button>
-      </div>
-
     </section>
 
-    <!-- RIGHT / TAB 2: Official Japanese Rirekisho A4 Preview -->
+    <!-- TAB 2: Official Japanese Rirekisho A4 Preview -->
     <section class="preview-pane" id="previewSection">
       
-      <div class="preview-actions-bar no-print">
-        <button type="button" id="backToFormBtn" class="btn btn-secondary btn-sm">⬅️ Kembali ke Form</button>
-        <button type="button" id="previewDownloadBtn" class="btn btn-primary btn-sm">📑 Unduh PDF Dossier</button>
-      </div>
-
       <!-- Scaled Sheet Container for Mobile Screens -->
       <div class="sheet-viewport-wrapper">
         <div class="a4-sheet" id="cvSheet">
@@ -346,7 +337,7 @@
           </div>
 
           <div class="preview-notice no-print">
-            💡 <strong>Format Standar 履歴書 (A4)</strong>: Dokumen ini terformat rapi sesuai proporsi A4 standar industri Jepang. Tekan <strong>📑 Unduh Dokumen Lengkap</strong> untuk mengunduh PDF gabungan.
+            💡 <strong>Format Standar 履歴書 (A4)</strong>: Dokumen ini terformat rapi sesuai proporsi A4 standar industri Jepang.
           </div>
 
         </div>
@@ -355,6 +346,12 @@
 
   </main>
 
-  <script src="app.js"></script>
+  <!-- Sticky Bottom Floating Bar on Mobile (with Safe Area Inset) -->
+  <footer class="mobile-sticky-bar no-print">
+    <button type="button" id="mobilePreviewToggleBtn" class="btn btn-secondary mobile-bar-btn">👁️ Lihat CV</button>
+    <button type="button" id="mobileDownloadBtn" class="btn btn-primary mobile-bar-btn">📑 Unduh PDF</button>
+  </footer>
+
+  <script src="app.js?v=2"></script>
 </body>
 </html>

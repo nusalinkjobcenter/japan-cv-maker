@@ -1,4 +1,4 @@
-/* Mobile-First Responsive Stylesheet */
+/* Mobile-First Polished Stylesheet */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,25 +13,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Header */
+/* -------------------------------------------------------------
+   HEADER STYLING
+------------------------------------------------------------- */
 .app-header {
   background-color: #1a365d;
   color: #ffffff;
-  padding: 10px 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  padding: 8px 14px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
-.header-container {
+.header-top {
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .logo {
@@ -50,24 +51,20 @@ body {
   border-radius: 4px;
 }
 
-.logo h1 {
-  font-size: 1.15rem;
+.logo-title {
+  font-size: 1.05rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-/* Language Switcher */
+/* Compact Language Switcher */
 .lang-switch {
-  display: flex;
-  background: rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.18);
   padding: 2px;
-  border-radius: 16px;
+  border-radius: 14px;
   gap: 2px;
 }
 
@@ -75,50 +72,63 @@ body {
   background: transparent;
   border: none;
   color: #e2e8f0;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
   padding: 4px 8px;
-  border-radius: 14px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .lang-btn.active {
   background: #ffffff;
   color: #1a365d;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-/* Mobile View Mode Tabs */
+/* Desktop Action Buttons in Header */
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Mobile Tabs (Full Width 2-Segment Control) */
 .mobile-tabs {
   display: none;
+  width: 100%;
   margin-top: 8px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  padding: 4px;
-  gap: 6px;
+  padding: 3px;
+  gap: 4px;
 }
 
 .mobile-tab-btn {
   flex: 1;
   background: transparent;
   border: none;
-  color: #e2e8f0;
+  color: #cbd5e0;
   font-size: 0.82rem;
   font-weight: 700;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 6px;
   cursor: pointer;
   text-align: center;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .mobile-tab-btn.active {
   background: #ffffff;
   color: #1a365d;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-/* Action Buttons */
+/* -------------------------------------------------------------
+   BUTTONS
+------------------------------------------------------------- */
 .btn {
   border: none;
   border-radius: 6px;
@@ -131,12 +141,12 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 38px;
+  min-height: 40px;
 }
 
 .btn-sm {
   font-size: 0.8rem;
-  padding: 5px 10px;
+  padding: 4px 10px;
   min-height: 32px;
 }
 
@@ -175,13 +185,16 @@ body {
   border: 1.5px solid #cbd5e0;
   background: #edf2f7;
   color: #4a5568;
-  padding: 6px 12px;
+  padding: 8px 12px;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 38px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-btn.active-grad {
@@ -206,7 +219,9 @@ body {
   font-size: 0.85rem;
 }
 
-/* Layout */
+/* -------------------------------------------------------------
+   CONTAINER & FORM LAYOUT
+------------------------------------------------------------- */
 .app-container {
   max-width: 1400px;
   margin: 16px auto;
@@ -230,21 +245,6 @@ body {
   align-items: center;
 }
 
-.preview-actions-bar {
-  display: none;
-  width: 100%;
-  margin-bottom: 12px;
-  gap: 10px;
-  justify-content: space-between;
-}
-
-.mobile-bottom-bar {
-  display: none;
-  margin-top: 10px;
-  gap: 8px;
-}
-
-/* Cards & Inputs */
 .card {
   background: #ffffff;
   border-radius: 10px;
@@ -299,7 +299,7 @@ label {
   margin-bottom: 4px;
 }
 
-/* 16px font-size prevents iOS Safari zoom-in on input tap */
+/* 16px font-size prevents iOS Safari auto-zoom on input focus */
 .input-control {
   width: 100%;
   padding: 10px 12px;
@@ -309,7 +309,7 @@ label {
   color: #2d3748;
   background-color: #fff;
   transition: border-color 0.2s;
-  min-height: 42px;
+  min-height: 44px;
 }
 
 .input-control:focus {
@@ -390,7 +390,9 @@ label {
   font-weight: 700;
 }
 
-/* A4 Sheet Container */
+/* -------------------------------------------------------------
+   A4 JAPANESE SHEET STYLING
+------------------------------------------------------------- */
 .sheet-viewport-wrapper {
   width: 100%;
   display: flex;
@@ -554,33 +556,62 @@ label {
   color: #2b6cb0;
 }
 
-/* -----------------------------------------------------------
-   RESPONSIVE MOBILE BREAKPOINTS (Screen <= 900px)
------------------------------------------------------------ */
+/* -------------------------------------------------------------
+   MOBILE STICKY BOTTOM BAR (Floating Download)
+------------------------------------------------------------- */
+.mobile-sticky-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 10px 14px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 14px));
+  box-shadow: 0 -3px 12px rgba(0,0,0,0.15);
+  z-index: 999;
+  gap: 10px;
+}
+
+.mobile-bar-btn {
+  flex: 1;
+  font-size: 0.92rem;
+}
+
+/* -------------------------------------------------------------
+   STRICT MOBILE BREAKPOINTS (Screen width <= 900px)
+------------------------------------------------------------- */
 @media (max-width: 900px) {
   .app-container {
     padding: 0 10px;
     margin: 10px auto;
   }
 
-  /* Show Mobile Tabs Bar */
-  .mobile-tabs {
-    display: flex;
-  }
-
-  .btn-header {
+  /* Hide Desktop actions completely on mobile */
+  .desktop-actions {
     display: none !important;
   }
 
-  .mobile-bottom-bar {
-    display: flex;
+  /* Show Full-Width Mobile Tabs */
+  .mobile-tabs {
+    display: flex !important;
   }
 
-  .preview-actions-bar {
-    display: flex;
+  /* Show Sticky Bottom Action Bar */
+  .mobile-sticky-bar {
+    display: flex !important;
   }
 
-  /* By default on mobile, show Editor and hide Preview until switched */
+  /* Prevent bottom content from being blocked by the sticky bar */
+  .editor-pane {
+    padding-bottom: 90px !important;
+  }
+
+  .preview-pane {
+    padding-bottom: 90px !important;
+  }
+
+  /* Tab switching visibility on mobile */
   .editor-pane.mobile-hidden {
     display: none !important;
   }
@@ -589,41 +620,30 @@ label {
     display: none !important;
   }
 
-  /* Scale A4 sheet slightly on tablets */
-  .sheet-viewport-wrapper {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 650px) {
-  .header-container {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
+  /* Force 1-column layout on ALL inputs so nothing is squished */
   .field-row, .field-row-3 {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .dynamic-dates-row {
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
   }
 
   .toggle-btn {
-    width: 100%;
-    text-align: center;
+    width: 100% !important;
+  }
+
+  .sheet-viewport-wrapper {
+    justify-content: flex-start !important;
   }
 }
 
-/* Clean Print Mode */
+/* Print Mode */
 @media print {
   body {
     background: #fff;
     padding: 0;
     margin: 0;
   }
-  .app-header, .editor-pane, .no-print, .status-banner, .preview-actions-bar {
+  .app-header, .editor-pane, .no-print, .status-banner, .mobile-sticky-bar {
     display: none !important;
   }
   .app-container {

@@ -759,3 +759,26 @@ window.addEventListener("resize", () => {
 if (window.innerWidth <= 900) {
   showMobileTab("form");
 }
+
+
+// Sticky Bottom Bar Wiring
+const mobilePreviewToggleBtn = document.getElementById("mobilePreviewToggleBtn");
+const mobileDownloadBtn = document.getElementById("mobileDownloadBtn");
+
+if (mobilePreviewToggleBtn) {
+  mobilePreviewToggleBtn.addEventListener("click", () => {
+    if (editorSection.classList.contains("mobile-hidden")) {
+      showMobileTab("form");
+      mobilePreviewToggleBtn.textContent = "👁️ Lihat CV";
+    } else {
+      showMobileTab("preview");
+      mobilePreviewToggleBtn.textContent = "📝 Kembali ke Form";
+    }
+  });
+}
+
+if (mobileDownloadBtn) {
+  mobileDownloadBtn.addEventListener("click", () => {
+    elements.downloadDossierBtn.click();
+  });
+}
