@@ -699,20 +699,25 @@ const backToFormBtn = document.getElementById("backToFormBtn");
 const mobileDownloadTrigger = document.getElementById("mobileDownloadTrigger");
 const previewDownloadBtn = document.getElementById("previewDownloadBtn");
 
-function showMobileTab(tab) {
+// FIXED: No automatic jumping to top when virtual keyboard appears!
+function showMobileTab(tab, shouldScroll = false) {
   if (window.innerWidth <= 900) {
     if (tab === "form") {
       editorSection.classList.remove("mobile-hidden");
       previewSection.classList.add("mobile-hidden");
       tabFormBtn.classList.add("active");
       tabPreviewBtn.classList.remove("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (shouldScroll) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     } else {
       editorSection.classList.add("mobile-hidden");
       previewSection.classList.remove("mobile-hidden");
       tabFormBtn.classList.remove("active");
       tabPreviewBtn.classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (shouldScroll) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   } else {
     editorSection.classList.remove("mobile-hidden");
@@ -721,16 +726,16 @@ function showMobileTab(tab) {
 }
 
 if (tabFormBtn && tabPreviewBtn) {
-  tabFormBtn.addEventListener("click", () => showMobileTab("form"));
-  tabPreviewBtn.addEventListener("click", () => showMobileTab("preview"));
+  tabFormBtn.addEventListener("click", () => showMobileTab("form", true));
+  tabPreviewBtn.addEventListener("click", () => showMobileTab("preview", true));
 }
 
 if (mobilePreviewTrigger) {
-  mobilePreviewTrigger.addEventListener("click", () => showMobileTab("preview"));
+  mobilePreviewTrigger.addEventListener("click", () => showMobileTab("preview", true));
 }
 
 if (backToFormBtn) {
-  backToFormBtn.addEventListener("click", () => showMobileTab("form"));
+  backToFormBtn.addEventListener("click", () => showMobileTab("form", true));
 }
 
 if (mobileDownloadTrigger) {
@@ -741,23 +746,28 @@ if (previewDownloadBtn) {
   previewDownloadBtn.addEventListener("click", () => elements.downloadDossierBtn.click());
 }
 
+// Ignore mobile keyboard resize events! Only toggle if crossing 900px breakpoint
+let lastWidth = window.innerWidth;
 window.addEventListener("resize", () => {
-  if (window.innerWidth > 900) {
+  const currentWidth = window.innerWidth;
+  if (currentWidth === lastWidth) return; // Keyboard showed/hid (height changed, width didn't!)
+  lastWidth = currentWidth;
+
+  if (currentWidth > 900) {
     editorSection.classList.remove("mobile-hidden");
     previewSection.classList.remove("mobile-hidden");
   } else {
-    // Keep current active tab state
     if (tabPreviewBtn.classList.contains("active")) {
-      showMobileTab("preview");
+      showMobileTab("preview", false);
     } else {
-      showMobileTab("form");
+      showMobileTab("form", false);
     }
   }
 });
 
-// Run mobile check on startup
+// Run mobile check on startup without scrolling
 if (window.innerWidth <= 900) {
-  showMobileTab("form");
+  showMobileTab("form", false);
 }
 
 
